@@ -48,11 +48,11 @@ const { title = "Mona's Bookmark Manager App" } = Astro.props;
         src: url('/fonts/MonaspaceXenon-700.woff2') format('woff2');
       }
       :root {
-        color-scheme: light dark;
-        --accent: #3b82f6;
-        --border: #8883;
-        --muted: color-mix(in srgb, currentColor 60%, transparent);
-        --radius: 0.6rem;
+        color-scheme: light;
+        --accent: #6754d8;
+        --border: color-mix(in srgb, #5446a8 20%, transparent);
+        --muted: #625f70;
+        --radius: 0.85rem;
         --font-body: 'Monaspace Neon', ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
         --font-head: 'Monaspace Xenon', 'Monaspace Neon', ui-monospace, monospace;
       }
@@ -60,34 +60,53 @@ const { title = "Mona's Bookmark Manager App" } = Astro.props;
       body {
         font-family: var(--font-body);
         line-height: 1.5;
-        max-width: 40rem;
+        max-width: 48rem;
         margin: 0 auto;
-        padding: 2.5rem 1.25rem 4rem;
+        padding: 4rem 1.5rem;
+        color: #242135;
+        background:
+          radial-gradient(ellipse at 12% 0%, #e9e4ff 0, transparent 38rem),
+          linear-gradient(160deg, #fbfaff, #f3f1fa);
       }
-      header { margin-bottom: 1.5rem; }
-      h1 { margin: 0 0 0.25rem; font-size: 1.75rem; font-family: var(--font-head); letter-spacing: -0.01em; }
+      header { margin-bottom: 2rem; }
+      h1 {
+        margin: 0 0 0.55rem;
+        font-size: clamp(1.6rem, 5vw, 2.15rem);
+        font-family: var(--font-head);
+        letter-spacing: -0.035em;
+        line-height: 1.2;
+      }
       .tagline { margin: 0; color: var(--muted); }
+      main {
+        padding: clamp(1rem, 4vw, 2rem);
+        border: 1px solid #fff;
+        border-radius: 1.25rem;
+        background: color-mix(in srgb, white 82%, transparent);
+        box-shadow: 0 1.5rem 4rem #31265814, 0 0.15rem 0.5rem #3126580a;
+      }
 
       form {
         display: flex;
         flex-wrap: wrap;
-        gap: 0.5rem;
+        gap: 0.75rem;
         align-items: end;
-        margin: 1.5rem 0 0.5rem;
+        margin: 0.25rem 0 0.65rem;
       }
-      .field { display: flex; flex-direction: column; gap: 0.35rem; flex: 1 1 16rem; }
+      .field { display: flex; flex-direction: column; gap: 0.45rem; flex: 1 1 16rem; }
       label { font-size: 0.85rem; font-weight: 600; }
       input {
-        padding: 0.6rem 0.7rem;
-        border: 1px solid var(--border);
+        min-height: 2.9rem;
+        padding: 0.65rem 0.8rem;
+        border: 1px solid #d5d0e7;
         border-radius: var(--radius);
         font: inherit;
-        background: transparent;
+        background: #fff;
         color: inherit;
       }
-      input:focus-visible,
+      input:focus-visible { border-color: var(--accent); }
       button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
       button {
+        min-height: 2.9rem;
         padding: 0.6rem 1rem;
         border: 1px solid transparent;
         border-radius: var(--radius);
@@ -96,64 +115,79 @@ const { title = "Mona's Bookmark Manager App" } = Astro.props;
         font: inherit;
         font-weight: 600;
         cursor: pointer;
+        transition: transform 120ms ease, filter 120ms ease;
       }
-      button:hover { filter: brightness(1.05); }
-      .hint { margin: 0 0 1.5rem; font-size: 0.8rem; color: var(--muted); }
+      button:hover { filter: brightness(1.08); transform: translateY(-1px); }
+      .hint { margin: 0 0 1.25rem; font-size: 0.8rem; color: var(--muted); }
+      .hint code { color: #4b3baf; }
+      .status-message {
+        min-height: 1.4em;
+        margin: 0 0 0.75rem;
+        color: #4b3baf;
+        font-size: 0.82rem;
+      }
 
       #list-header {
         display: flex;
         align-items: center;
         justify-content: space-between;
         gap: 0.75rem;
-        margin: 0.5rem 0;
+        margin: 0 0 0.75rem;
       }
       .list-title { margin: 0; font-size: 1rem; font-family: var(--font-head); }
       .clear {
         background: transparent;
-        color: inherit;
-        border: 1px solid var(--border);
+        color: #514d60;
+        border: 1px solid #d5d0e7;
         padding: 0.35rem 0.7rem;
         font-size: 0.8rem;
         font-weight: 500;
       }
       .clear:hover { border-color: currentColor; }
 
-      ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.5rem; }
+      ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 0.6rem; }
       li.bookmark {
         display: flex;
         flex-wrap: wrap;
         align-items: center;
-        gap: 0.5rem 0.75rem;
-        padding: 0.75rem 0.9rem;
-        border: 1px solid var(--border);
+        gap: 0.5rem 0.35rem;
+        padding: 0.8rem 0.9rem;
+        border: 1px solid #e1deeb;
         border-radius: var(--radius);
+        background: #fff;
       }
-      .bookmark .url { flex: 1 1 12rem; overflow-wrap: anywhere; }
+      .bookmark .url { flex: 1 1 12rem; min-width: 0; overflow-wrap: anywhere; color: #41359c; }
       .bookmark .slug {
-        font-family: ui-monospace, "SF Mono", monospace;
+        font-family: var(--font-body);
         font-size: 0.85rem;
         padding: 0.15rem 0.5rem;
         border-radius: 999px;
-        background: color-mix(in srgb, var(--accent) 18%, transparent);
+        color: #4b3baf;
+        background: #efedff;
       }
       .bookmark .copy {
         background: transparent;
-        color: inherit;
-        border: 1px solid var(--border);
+        color: #514d60;
+        border: 1px solid #d5d0e7;
         padding: 0.3rem 0.6rem;
         font-size: 0.8rem;
         font-weight: 500;
       }
       .empty {
         margin: 0;
-        padding: 1.5rem;
+        padding: 1.75rem 1rem;
         text-align: center;
         color: var(--muted);
-        border: 1px dashed var(--border);
+        border: 1px dashed #c9c4da;
         border-radius: var(--radius);
+        background: #ffffff80;
       }
 
-      footer { margin-top: 2.5rem; font-size: 0.8rem; color: var(--muted); }
+      footer { margin-top: 1.25rem; padding: 0 0.25rem; font-size: 0.8rem; color: var(--muted); }
+      @media (max-width: 36rem) {
+        body { padding: 2.5rem 1rem; }
+        form button { width: 100%; }
+      }
     </style>
   </head>
   <body>
